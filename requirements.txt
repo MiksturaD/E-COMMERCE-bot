@@ -1,0 +1,11 @@
+aiofiles==23.2.1
+aiosqlite==0.20.0
+python-telegram-bot==21.4
+SQLAlchemy==2.0.35
+alembic==1.13.2
+pydantic==2.9.2
+python-dotenv==1.0.1
+phonenumberslite==8.13.47
+pytest==8.3.3
+pytest-asyncio==0.23.8
+loguru==0.7.2 
