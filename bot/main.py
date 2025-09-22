@@ -23,10 +23,23 @@ async def main_async():  # Точка входа (асинхронная) для
         app.add_handler(h)  # Добавляем хендлер в приложение
 
     logger.info("Bot starting...")  # Логируем старт
-    await app.initialize()  # Инициализация приложения (внутренние структуры)
-    await app.start()  # Старт приложения (подготовка к приёму обновлений)
-    await app.updater.start_polling(drop_pending_updates=True)  # Запуск получения апдейтов через long polling
-    await app.updater.idle()  # Ожидание завершения работы (Ctrl+C)
+    
+    # Ручное управление жизненным циклом
+    await app.initialize()
+    await app.start()
+    await app.updater.start_polling(drop_pending_updates=True)
+    
+    # Ожидание завершения работы
+    try:
+        await asyncio.Event().wait()  # Бесконечное ожидание
+    except KeyboardInterrupt:
+        logger.info("Bot stopping...")
+    finally:
+        await app.stop()
+        await app.shutdown()
+
+def main():  # Синхронная точка входа
+    asyncio.run(main_async())
 
 if __name__ == "__main__":  # Если файл запущен как скрипт
-    asyncio.run(main_async())  # Запускаем асинхронную точку входа 
+    main()  # Запускаем синхронную точку входа
